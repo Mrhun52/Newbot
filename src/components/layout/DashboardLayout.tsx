@@ -3,24 +3,26 @@ import { Sidebar } from './Sidebar';
 import { BottomNav } from './BottomNav';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLocation } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
+import { LogOut, Search, Bell } from 'lucide-react';
 import { useAuth } from '@/store/useAuth';
+import { ParticleBackground } from '@/components/ui/ParticleBackground';
 
 export const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   return (
     <div className="min-h-screen bg-[#020617] text-slate-50 selection:bg-blue-500/30">
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-600/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-600/10 blur-[120px] rounded-full" />
+        <ParticleBackground />
+        <div className="absolute top-0 left-0 w-[50rem] h-[50rem] opacity-20" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.15) 0%, rgba(2,6,23,0) 70%)', transform: 'translate(-30%, -30%)' }} />
+        <div className="absolute bottom-0 right-0 w-[50rem] h-[50rem] opacity-20" style={{ background: 'radial-gradient(circle, rgba(147,51,234,0.15) 0%, rgba(2,6,23,0) 70%)', transform: 'translate(20%, 20%)' }} />
       </div>
 
       <Sidebar />
       
       {/* Mobile Header */}
-      <div className="lg:hidden sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/50 flex items-center justify-between px-4 py-3">
+      <div className="lg:hidden sticky top-0 z-40 bg-slate-900/60 backdrop-blur-3xl border-b border-white/5 flex items-center justify-between px-4 py-4">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.4)]">
             <span className="text-white font-bold text-xl font-display">M</span>
@@ -37,19 +39,48 @@ export const DashboardLayout = ({ children }: { children: ReactNode }) => {
         </button>
       </div>
 
-      <main className="lg:pl-64 min-h-screen relative z-10 pb-20 lg:pb-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen"
-          >
-            {children}
-          </motion.div>
-        </AnimatePresence>
+      <main className="lg:pl-[18rem] min-h-screen relative z-10 pb-20 lg:pb-0 flex flex-col">
+        {/* Desktop Header with Search */}
+        <header className="hidden lg:flex items-center justify-between px-8 py-4 mx-4 mt-4 bg-slate-900/40 backdrop-blur-3xl border border-white/5 rounded-3xl sticky top-4 z-30 shadow-2xl">
+           <div className="relative w-96 group">
+             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+             <input 
+               type="text" 
+               placeholder="Search accounts, history, settings..." 
+               className="w-full bg-white/5 border border-white/10 hover:bg-white/10 rounded-full py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 transition-all shadow-inner hover:bg-slate-900/80"
+             />
+           </div>
+           <div className="flex items-center gap-6">
+             <button className="relative p-2 text-slate-400 hover:text-white transition-colors group">
+               <Bell className="w-5 h-5" />
+               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-blue-500 rounded-full border-2 border-[#020617]"></span>
+             </button>
+             <div className="flex items-center gap-3 pl-6 border-l border-white/5">
+               <div className="text-right">
+                 <p className="text-sm font-medium text-white">{user?.name || 'Admin'}</p>
+                 <p className="text-xs text-slate-500">{user?.email || 'admin@mrtool.com'}</p>
+               </div>
+               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-sm font-bold text-white shadow-lg shadow-blue-500/20 border border-white/10">
+                 {user?.name?.charAt(0) || 'M'}
+               </div>
+             </div>
+           </div>
+        </header>
+
+        <div className="flex-1">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen"
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </main>
 
       <BottomNav />

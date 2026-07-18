@@ -1,13 +1,64 @@
 import { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { useAuth } from '@/store/useAuth';
-import { userApi } from '@/services/api';
+import { userApi, gameApi } from '@/services/api';
+import { useProgress } from '@/store/useProgress';
+import { useToast } from '@/store/useToast';
+import { Button } from '@/components/ui/Button';
 import { Coins, Wallet, Trophy, User, ArrowUpRight, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
+import { AccountRiskMeter } from '@/components/ui/AccountRiskMeter';
+import { useRisk } from '@/store/useRisk';
 
 export const Dashboard = () => {
   const { user, updateUser } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
+  const { setRisk, resetRisk } = useRisk();
+  const { runWithProgress } = useProgress();
+  const { addToast } = useToast();
+  const [isMaxing, setIsMaxing] = useState(false);
+
+  const handleMaxAccount = async () => {
+    setIsMaxing(true);
+    try {
+      await runWithProgress(
+        'Maxing Account',
+        'Applying money, coins and unlocking all features...',
+        async () => {
+          await gameApi.setMoney(50000000);
+          await gameApi.setCoins(500000);
+          await gameApi.unlockMaleClothes();
+          await gameApi.unlockFemaleClothes();
+          await gameApi.unlockAllAnimations();
+          await gameApi.unlockAllHorns();
+          await gameApi.unlockAllSirens();
+          await gameApi.unlockAllWheels();
+          await gameApi.unlockPaidWheels();
+          await gameApi.unlockDisableVehicleDamage();
+          await gameApi.unlockW16();
+          await gameApi.unlockSmokeEffect();
+          await gameApi.unlockUnlimitedFuel();
+          await gameApi.unlockAllCars();
+          updateUser({ money: 50000000, coins: 500000 });
+          addToast({ title: 'Success', description: 'Account maxed out successfully!', type: 'success' });
+        },
+        {
+          durationMs: 6000,
+          steps: [
+            { progress: 20, text: 'Adding 50M Money & 500K Coins...' },
+            { progress: 50, text: 'Unlocking all clothes and animations...' },
+            { progress: 80, text: 'Unlocking all cars, engines, and perks...' },
+            { progress: 95, text: 'Finalizing account sync...' }
+          ]
+        }
+      );
+    } catch (e: any) {
+      addToast({ title: 'Error', description: e.message || 'Failed to max account', type: 'error' });
+    } finally {
+      setIsMaxing(false);
+    }
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -25,9 +76,31 @@ export const Dashboard = () => {
       } finally {
         setIsLoading(false);
       }
+      
+
     };
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      let risk = 5;
+      let message = 'Account is in good standing.';
+      
+      if (user.money && user.money >= 100000000) {
+        risk = 90;
+        message = 'CRITICAL: Very high bank balance detected. High risk of auto-ban.';
+      } else if (user.money && user.money >= 50000000) {
+        risk = 60;
+        message = 'MODERATE: Large bank balance. Avoid drawing attention.';
+      } else if (user.coins && user.coins >= 1000000) {
+        risk = 70;
+        message = 'HIGH: Large amount of premium coins detected.';
+      }
+      
+      setRisk(risk, message);
+    }
+  }, [user?.money, user?.coins, setRisk]);
 
   const stats = [
     { label: 'Total Money', value: `$${user?.money?.toLocaleString() || '0'}`, icon: Wallet, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
@@ -45,11 +118,15 @@ export const Dashboard = () => {
 
   return (
     <div className="space-y-6">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Welcome back, {user?.name || 'Player'}</h1>
         <p className="text-slate-400">Here's what's happening with your account today.</p>
       </header>
 
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
       <Card className="flex flex-col sm:flex-row items-center gap-6 bg-gradient-to-r from-blue-900/20 to-slate-900/50">
         <div className="w-20 h-20 rounded-full bg-slate-800 border-2 border-blue-500/50 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(37,99,235,0.2)]">
           <User className="w-10 h-10 text-slate-400" />
@@ -66,12 +143,24 @@ export const Dashboard = () => {
           <Link to="/account" className="flex items-center justify-center w-full px-6 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-xl text-sm font-medium transition-colors border border-slate-700">
             Edit Profile
           </Link>
+          <Button
+            onClick={handleMaxAccount}
+            isLoading={isMaxing}
+            className="w-full sm:w-auto mt-2 sm:mt-0 sm:ml-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white border-0"
+          >
+            Max Account (Unlock All)
+          </Button>
         </div>
       </Card>
+      </motion.div>
 
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.2 }}>
+      <AccountRiskMeter />
+      </motion.div>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }}>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, i) => (
-          <Card key={i} className="p-5 hover:-translate-y-1 transition-transform duration-300">
+          <Card key={i} className="p-5">
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.bg} shadow-inner`}>
                 <stat.icon className={`w-6 h-6 ${stat.color}`} />
@@ -88,13 +177,14 @@ export const Dashboard = () => {
           </Card>
         ))}
       </div>
-
+      </motion.div>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }}>
       <div className="pt-4">
         <h3 className="text-xl font-bold text-white mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {quickLinks.map((link, i) => (
             <Link key={i} to={link.href}>
-              <Card className={`h-full hover:scale-[1.02] transition-transform duration-300 bg-gradient-to-br ${link.color} border-white/5`}>
+              <Card className={`h-full bg-gradient-to-br ${link.color} border-slate-800`}>
                 <div className="flex items-start justify-between">
                   <div>
                     <h4 className="text-lg font-bold text-white mb-1">{link.title}</h4>
@@ -109,6 +199,7 @@ export const Dashboard = () => {
           ))}
         </div>
       </div>
+      </motion.div>
     </div>
   );
 };

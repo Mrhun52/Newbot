@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { useToast } from '@/store/useToast';
+import { useProgress } from '@/store/useProgress';
 import { gameApi } from '@/services/api';
 import { Shirt, Volume2, Shield, Settings, Droplet, Car, Activity, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -10,6 +11,7 @@ export const Unlock = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [unlockingId, setUnlockingId] = useState<string | null>(null);
   const { addToast } = useToast();
+  const { runWithProgress } = useProgress();
 
   const unlockActions = [
     { id: 'male_clothes', name: 'Male Clothes', desc: 'Unlock all male clothing items', icon: Shirt, api: gameApi.unlockMaleClothes, category: 'character' },
@@ -30,13 +32,42 @@ export const Unlock = () => {
 
   const handleUnlock = async (id: string, name: string, apiCall: () => Promise<any>) => {
     setUnlockingId(id);
+    
+    // Custom steps based on the item
+    let steps = undefined;
+    let durationMs = 2000;
+    
+    if (id === 'cars') {
+      steps = [
+        { progress: 10, text: 'Fetching car database...' },
+        { progress: 30, text: 'Unlocking Tier 1 cars...' },
+        { progress: 50, text: 'Unlocking Tier 2 cars...' },
+        { progress: 75, text: 'Unlocking Premium & Boss cars...' },
+        { progress: 95, text: 'Saving 226 cars to profile...' }
+      ];
+      durationMs = 3500;
+    } else {
+      steps = [
+        { progress: 20, text: `Authorizing ${name} unlock...` },
+        { progress: 60, text: 'Applying modifications...' },
+        { progress: 90, text: 'Syncing with server...' }
+      ];
+    }
+    
     try {
-      const response = await apiCall();
-      if (response.data?.status || response.data?.success || response.data?.stasus === true) {
-        addToast({ title: 'Unlocked', description: `Successfully unlocked ${name}`, type: 'success' });
-      } else {
-        addToast({ title: 'Failed', description: response.data?.message || `Failed to unlock ${name}`, type: 'error' });
-      }
+      await runWithProgress(
+        `Unlocking ${name}`,
+        'Please wait while the modifications are applied to your account.',
+        async () => {
+          const response = await apiCall();
+          if (response.data?.status || response.data?.success || response.data?.stasus === true) {
+            addToast({ title: 'Unlocked', description: `Successfully unlocked ${name}`, type: 'success' });
+          } else {
+            addToast({ title: 'Failed', description: response.data?.message || `Failed to unlock ${name}`, type: 'error' });
+          }
+        },
+        { steps, durationMs }
+      );
     } catch (error: any) {
       addToast({ title: 'Error', description: error.response?.data?.message || `An error occurred unlocking ${name}`, type: 'error' });
     } finally {

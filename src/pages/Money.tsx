@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { gameApi } from '@/services/api';
 import { useToast } from '@/store/useToast';
 import { useAuth } from '@/store/useAuth';
+import { useProgress } from '@/store/useProgress';
 import { Wallet, Coins, Trophy, Flag, Star } from 'lucide-react';
+import { useRisk } from '@/store/useRisk';
+import { AccountRiskMeter } from '@/components/ui/AccountRiskMeter';
 
 export const Money = () => {
   const [moneyAmount, setMoneyAmount] = useState('');
@@ -17,8 +20,93 @@ export const Money = () => {
   
   const { addToast } = useToast();
   const { user, updateUser } = useAuth();
+  const { runWithProgress } = useProgress();
+  const { setRisk, resetRisk } = useRisk();
+
+  useEffect(() => {
+    let risk = 5;
+    let message = 'Account operations are currently within safe limits.';
+    let hasInput = false;
+
+    if (moneyAmount) {
+      hasInput = true;
+      const amt = Number(moneyAmount);
+      if (amt >= 50000000) {
+        risk = 95;
+        message = 'CRITICAL RISK: Adding 50M+ money instantly is highly likely to trigger auto-ban.';
+      } else if (amt >= 10000000) {
+        risk = 80;
+        message = 'HIGH RISK: Amounts over 10M money often trigger manual review.';
+      } else if (amt >= 5000000) {
+        risk = 50;
+        message = 'MODERATE RISK: Adding 5M money is noticeable. Proceed with caution.';
+      } else {
+        risk = 15;
+        message = 'LOW RISK: This money amount is generally safe.';
+      }
+    } else if (coinsAmount) {
+      hasInput = true;
+      const amt = Number(coinsAmount);
+      if (amt >= 100000) {
+        risk = 90;
+        message = 'CRITICAL RISK: 100K+ coins flags account anomaly detectors.';
+      } else if (amt >= 50000) {
+        risk = 60;
+        message = 'MODERATE RISK: Unusually high coin amount. Consider smaller batches.';
+      } else {
+        risk = 10;
+        message = 'LOW RISK: This coin amount is generally safe.';
+      }
+    } else if (raceWin || raceLose) {
+      hasInput = true;
+      const amt = Number(raceWin) || Number(raceLose);
+      if (amt >= 10000) {
+        risk = 80;
+        message = 'HIGH RISK: 10K+ sudden race stat changes are suspicious.';
+      } else {
+        risk = 20;
+        message = 'LOW RISK: These race stats are within reasonable limits.';
+      }
+    }
+
+    if (hasInput) {
+      setRisk(risk, message);
+    } else {
+      resetRisk();
+    }
+  }, [moneyAmount, coinsAmount, raceWin, raceLose, setRisk, resetRisk]);
 
   const handleAction = async (actionId: string, apiCall: () => Promise<any>, successMsg: string, updateFn?: () => void) => {
+    if (actionId === 'complete_levels') {
+      try {
+        await runWithProgress(
+          'Completing All Levels',
+          'Setting maximum stars for all story and challenge levels...',
+          async () => {
+            const response = await apiCall();
+            if (response.data?.status || response.data?.success || response.data?.stasus === true) {
+              if (updateFn) updateFn();
+              addToast({ title: 'Success', description: successMsg, type: 'success' });
+            } else {
+              addToast({ title: 'Failed', description: response.data?.message || `Failed to perform action`, type: 'error' });
+            }
+          },
+          {
+            durationMs: 3000,
+            steps: [
+              { progress: 15, text: 'Scanning levels database...' },
+              { progress: 40, text: 'Setting 3 stars on story levels...' },
+              { progress: 75, text: 'Completing challenge events...' },
+              { progress: 95, text: 'Syncing profile progress...' }
+            ]
+          }
+        );
+      } catch (error: any) {
+        addToast({ title: 'Error', description: error.response?.data?.message || 'An error occurred', type: 'error' });
+      }
+      return;
+    }
+    
     setIsLoading(prev => ({ ...prev, [actionId]: true }));
     try {
       const response = await apiCall();
@@ -40,11 +128,12 @@ export const Money = () => {
 
   return (
     <div className="space-y-6">
-      <header className="mb-8">
+      <header className="mb-6">
         <h1 className="text-3xl font-bold text-white mb-2">Economy & Progress</h1>
         <p className="text-slate-400">Manage your in-game currency, premium coins, and game stats.</p>
       </header>
 
+      <div className="mb-6"><AccountRiskMeter /></div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="flex flex-col h-full bg-gradient-to-br from-slate-900 to-emerald-950/30 border-emerald-900/50">
           <div className="flex items-center gap-4 mb-6">

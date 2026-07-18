@@ -3,6 +3,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useToast } from '@/store/useToast';
+import { useProgress } from '@/store/useProgress';
 import { gameApi } from '@/services/api';
 import { Car, Unlock, Shield, Droplet, Check } from 'lucide-react';
 
@@ -61,7 +62,7 @@ export const Cars = () => {
 
   const handleChrome = async () => {
     if (!carIdChrome) return;
-    setIsLoading(prev => ({ ...prev, chrome: true }));
+    
     try {
       const idParam = carIdChrome.toLowerCase() === 'all' ? 'all' : [Number(carIdChrome)];
       const options = {
@@ -69,16 +70,34 @@ export const Cars = () => {
         ...(chromeWindow ? { window: chromeWindow } : {}),
         ...(chromeWheels ? { wheels: chromeWheels } : {})
       };
-      const response = await gameApi.chrome(idParam, options);
-      if (response.data?.status || response.data?.success || response.data?.stasus === true) {
-        addToast({ title: 'Success', description: `Successfully applied chrome to ${carIdChrome}`, type: 'success' });
-      } else {
-        addToast({ title: 'Failed', description: response.data?.message || 'Failed to apply chrome', type: 'error' });
+      
+      let steps = undefined;
+      let durationMs = 1500;
+      if (idParam === 'all') {
+        steps = [
+          { progress: 10, text: 'Fetching all cars...' },
+          { progress: 30, text: 'Applying body color...' },
+          { progress: 60, text: 'Applying window & wheels...' },
+          { progress: 90, text: 'Saving changes...' }
+        ];
+        durationMs = 3000;
       }
+      
+      await useProgress.getState().runWithProgress(
+        'Applying Chrome',
+        `Applying colors to ${carIdChrome === 'all' ? 'all cars' : `car ID ${carIdChrome}`}`,
+        async () => {
+          const response = await gameApi.chrome(idParam, options);
+          if (response.data?.status || response.data?.success || response.data?.stasus === true) {
+            addToast({ title: 'Success', description: `Successfully applied chrome to ${carIdChrome}`, type: 'success' });
+          } else {
+            addToast({ title: 'Failed', description: response.data?.message || 'Failed to apply chrome', type: 'error' });
+          }
+        },
+        { steps, durationMs }
+      );
     } catch (error: any) {
       addToast({ title: 'Error', description: error.response?.data?.message || 'An error occurred', type: 'error' });
-    } finally {
-      setIsLoading(prev => ({ ...prev, chrome: false }));
     }
   };
 

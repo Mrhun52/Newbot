@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useToast } from '@/store/useToast';
 import { useAuth } from '@/store/useAuth';
+import { useProgress } from '@/store/useProgress';
 import { userApi } from '@/services/api';
 import { User, Copy, CheckCircle2, CopyPlus } from 'lucide-react';
 
@@ -64,19 +65,33 @@ export const Account = () => {
       addToast({ title: 'Missing fields', description: 'Please fill out all fields for copy account.', type: 'error' });
       return;
     }
-    setIsCopying(true);
+    
     try {
-      const response = await userApi.copyAccount(copyData);
-      if (response.data?.status || response.data?.success || response.data?.stasus === true) {
-        addToast({ title: 'Success', description: 'Account copied successfully', type: 'success' });
-        setCopyData({ fromEmail: '', fromPassword: '', toEmail: '', toPassword: '' });
-      } else {
-        addToast({ title: 'Failed', description: response.data?.message || 'Failed to copy account', type: 'error' });
-      }
+      await useProgress.getState().runWithProgress(
+        'Cloning Account',
+        'Transferring data from source to destination...',
+        async () => {
+          const response = await userApi.copyAccount(copyData);
+          if (response.data?.status || response.data?.success || response.data?.stasus === true) {
+            addToast({ title: 'Success', description: 'Account copied successfully', type: 'success' });
+            setCopyData({ fromEmail: '', fromPassword: '', toEmail: '', toPassword: '' });
+          } else {
+            addToast({ title: 'Failed', description: response.data?.message || 'Failed to copy account', type: 'error' });
+          }
+        },
+        {
+          durationMs: 4000,
+          steps: [
+            { progress: 15, text: 'Authenticating source account...' },
+            { progress: 40, text: 'Reading player records...' },
+            { progress: 65, text: 'Authenticating destination account...' },
+            { progress: 85, text: 'Writing cloned data...' },
+            { progress: 95, text: 'Verifying integrity...' }
+          ]
+        }
+      );
     } catch (error: any) {
       addToast({ title: 'Error', description: error.response?.data?.message || 'An error occurred during copy', type: 'error' });
-    } finally {
-      setIsCopying(false);
     }
   };
 
