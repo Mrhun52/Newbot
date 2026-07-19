@@ -67,12 +67,12 @@ export const SessionMonitor = () => {
   return (
     <AnimatePresence>
       {showWarning && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-neutral-950/80 backdrop-blur-sm p-4">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl p-6 relative overflow-hidden"
+            className="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-2xl shadow-2xl p-6 relative overflow-hidden"
           >
             <div className="absolute top-0 left-0 w-full h-1 bg-amber-500/50" />
             
@@ -82,7 +82,7 @@ export const SessionMonitor = () => {
               </div>
               
               <h2 className="text-xl font-bold text-white font-display mb-2">Session Expiring Soon</h2>
-              <p className="text-slate-400 mb-6">
+              <p className="text-neutral-400 mb-6">
                 You've been inactive for a while. For your security, you will be automatically logged out in <strong className="text-white">{timeLeft} seconds</strong>.
               </p>
               

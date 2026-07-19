@@ -7,20 +7,17 @@ export const Card = forwardRef<HTMLDivElement, HTMLMotionProps<"div">>(
     return (
       <motion.div
         ref={ref}
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.02, y: -5 }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         className={cn(
-          'bg-slate-900/40 backdrop-blur-2xl border border-white/5 rounded-3xl p-6 shadow-[0_8px_30px_rgba(0,0,0,0.12)] relative overflow-hidden transition-all duration-300 hover:bg-slate-900/60 hover:border-white/10 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] group',
+          'relative bg-[#0F0F0F]/60 backdrop-blur-md border border-white/10 rounded-2xl p-5 md:p-6 transition-all duration-300 hover:border-white/20 hover:bg-[#151515]/80 shadow-2xl overflow-hidden group',
           className
         )}
         {...props}
       >
-        {/* Subtle gradient glow effect */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
-        <div className="absolute -inset-24 bg-gradient-to-tr from-blue-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-        <div className="relative z-10">{children}</div>
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {children}
       </motion.div>
     );
   }

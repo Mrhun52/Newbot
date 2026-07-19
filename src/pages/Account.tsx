@@ -106,7 +106,7 @@ export const Account = () => {
     <div className="space-y-6">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Account Tools</h1>
-        <p className="text-slate-400">Manage your profile name, ID, or clone accounts.</p>
+        <p className="text-neutral-400">Manage your profile name, ID, or clone accounts.</p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -119,7 +119,7 @@ export const Account = () => {
             
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-1.5">Email Address</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-1.5">Email Address</label>
                 <Input 
                   value={user?.email || ''}
                   disabled
@@ -128,7 +128,7 @@ export const Account = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-1.5">Display Name</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-1.5">Display Name</label>
                 <div className="flex gap-2">
                   <Input 
                     value={name}
@@ -147,7 +147,7 @@ export const Account = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-1.5">Local ID</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-1.5">Local ID</label>
                 <div className="flex gap-2">
                   <Input 
                     value={localId}
@@ -181,13 +181,13 @@ export const Account = () => {
               <CopyPlus className="w-5 h-5 text-purple-400" />
               <h2 className="text-xl font-bold text-white">Copy Account</h2>
             </div>
-            <p className="text-sm text-slate-400 mb-6">
+            <p className="text-sm text-neutral-400 mb-6">
               Clone data from one account to another. Both accounts must exist.
             </p>
             
             <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 space-y-4">
-                <h3 className="text-sm font-medium text-slate-300">Source Account (From)</h3>
+              <div className="p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 space-y-4">
+                <h3 className="text-sm font-medium text-neutral-300">Source Account (From)</h3>
                 <Input 
                   placeholder="From Email" 
                   value={copyData.fromEmail}
@@ -201,8 +201,8 @@ export const Account = () => {
                 />
               </div>
               
-              <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 space-y-4">
-                <h3 className="text-sm font-medium text-slate-300">Destination Account (To)</h3>
+              <div className="p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 space-y-4">
+                <h3 className="text-sm font-medium text-neutral-300">Destination Account (To)</h3>
                 <Input 
                   placeholder="To Email" 
                   value={copyData.toEmail}

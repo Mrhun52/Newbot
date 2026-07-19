@@ -130,12 +130,12 @@ export const Money = () => {
     <div className="space-y-6">
       <header className="mb-6">
         <h1 className="text-3xl font-bold text-white mb-2">Economy & Progress</h1>
-        <p className="text-slate-400">Manage your in-game currency, premium coins, and game stats.</p>
+        <p className="text-neutral-400">Manage your in-game currency, premium coins, and game stats.</p>
       </header>
 
       <div className="mb-6"><AccountRiskMeter /></div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="flex flex-col h-full bg-gradient-to-br from-slate-900 to-emerald-950/30 border-emerald-900/50">
+        <Card className="flex flex-col h-full bg-gradient-to-br from-neutral-900 to-emerald-950/30 border-emerald-900/50">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center">
               <Wallet className="w-6 h-6 text-emerald-400" />
@@ -147,7 +147,7 @@ export const Money = () => {
           </div>
 
           <div className="space-y-4 mb-6 flex-1">
-            <label className="block text-sm font-medium text-slate-400 mb-2">Quick Presets</label>
+            <label className="block text-sm font-medium text-neutral-400 mb-2">Quick Presets</label>
             <div className="grid grid-cols-2 gap-3">
               {moneyPresets.map((amount) => (
                 <Button 
@@ -155,7 +155,7 @@ export const Money = () => {
                   variant="secondary" 
                   onClick={() => handleAction('money_'+amount, () => gameApi.setMoney(amount), `Successfully set money to $${amount.toLocaleString()}`, () => updateUser({ money: amount }))}
                   disabled={isLoading['money_'+amount]}
-                  className="bg-slate-800/50 hover:bg-emerald-600/20 hover:text-emerald-400 hover:border-emerald-500/30 transition-all"
+                  className="bg-neutral-800/50 hover:bg-emerald-600/20 hover:text-emerald-400 hover:border-emerald-500/30 transition-all"
                 >
                   Set ${amount.toLocaleString()}
                 </Button>
@@ -163,15 +163,15 @@ export const Money = () => {
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-800/50">
-            <label className="block text-sm font-medium text-slate-400 mb-2">Custom Amount</label>
+          <div className="pt-6 border-t border-neutral-800/50">
+            <label className="block text-sm font-medium text-neutral-400 mb-2">Custom Amount</label>
             <div className="flex gap-3">
               <Input 
                 type="number" 
                 placeholder="Enter amount..." 
                 value={moneyAmount}
                 onChange={(e) => setMoneyAmount(e.target.value)}
-                className="bg-slate-950/50"
+                className="bg-neutral-950/50"
               />
               <Button 
                 onClick={() => {
@@ -188,7 +188,7 @@ export const Money = () => {
           </div>
         </Card>
 
-        <Card className="flex flex-col h-full bg-gradient-to-br from-slate-900 to-amber-950/30 border-amber-900/50">
+        <Card className="flex flex-col h-full bg-gradient-to-br from-neutral-900 to-amber-950/30 border-amber-900/50">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center">
               <Coins className="w-6 h-6 text-amber-400" />
@@ -200,7 +200,7 @@ export const Money = () => {
           </div>
 
           <div className="space-y-4 mb-6 flex-1">
-            <label className="block text-sm font-medium text-slate-400 mb-2">Quick Presets</label>
+            <label className="block text-sm font-medium text-neutral-400 mb-2">Quick Presets</label>
             <div className="grid grid-cols-2 gap-3">
               {coinsPresets.map((amount) => (
                 <Button 
@@ -208,7 +208,7 @@ export const Money = () => {
                   variant="secondary" 
                   onClick={() => handleAction('coins_'+amount, () => gameApi.setCoins(amount), `Successfully set coins to ${amount.toLocaleString()}`, () => updateUser({ coins: amount }))}
                   disabled={isLoading['coins_'+amount]}
-                  className="bg-slate-800/50 hover:bg-amber-600/20 hover:text-amber-400 hover:border-amber-500/30 transition-all"
+                  className="bg-neutral-800/50 hover:bg-amber-600/20 hover:text-amber-400 hover:border-amber-500/30 transition-all"
                 >
                   Set {amount.toLocaleString()}
                 </Button>
@@ -216,15 +216,15 @@ export const Money = () => {
             </div>
           </div>
 
-          <div className="pt-6 border-t border-slate-800/50">
-            <label className="block text-sm font-medium text-slate-400 mb-2">Custom Amount</label>
+          <div className="pt-6 border-t border-neutral-800/50">
+            <label className="block text-sm font-medium text-neutral-400 mb-2">Custom Amount</label>
             <div className="flex gap-3">
               <Input 
                 type="number" 
                 placeholder="Enter amount..." 
                 value={coinsAmount}
                 onChange={(e) => setCoinsAmount(e.target.value)}
-                className="bg-slate-950/50"
+                className="bg-neutral-950/50"
               />
               <Button 
                 onClick={() => {
@@ -254,7 +254,7 @@ export const Money = () => {
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Race Wins</label>
+              <label className="block text-sm font-medium text-neutral-400 mb-2">Race Wins</label>
               <div className="flex gap-3">
                 <Input 
                   type="number" 
@@ -274,7 +274,7 @@ export const Money = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Race Loses</label>
+              <label className="block text-sm font-medium text-neutral-400 mb-2">Race Loses</label>
               <div className="flex gap-3">
                 <Input 
                   type="number" 
@@ -295,7 +295,7 @@ export const Money = () => {
           </div>
         </Card>
 
-        <Card className="flex flex-col h-full bg-gradient-to-br from-slate-900 to-indigo-950/30 border-indigo-900/50">
+        <Card className="flex flex-col h-full bg-gradient-to-br from-neutral-900 to-indigo-950/30 border-indigo-900/50">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center">
               <Star className="w-6 h-6 text-indigo-400" />
@@ -316,7 +316,7 @@ export const Money = () => {
               <Flag className="w-5 h-5 mr-2" />
               Complete All Levels
             </Button>
-            <p className="text-xs text-slate-500 text-center mt-4">
+            <p className="text-xs text-neutral-500 text-center mt-4">
               This action will mark all story and challenge levels as 100% completed with maximum stars.
             </p>
           </div>

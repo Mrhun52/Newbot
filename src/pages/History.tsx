@@ -43,12 +43,12 @@ export const History = () => {
     <div className="space-y-6">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Activity History</h1>
-        <p className="text-slate-400">View your recent account actions and transactions.</p>
+        <p className="text-neutral-400">View your recent account actions and transactions.</p>
       </header>
 
-      <Card className="p-0 overflow-hidden border-slate-800/80">
+      <Card className="p-0 overflow-hidden border-neutral-800/80">
         {isLoading ? (
-          <div className="flex flex-col items-center justify-center h-64 text-slate-400 gap-4">
+          <div className="flex flex-col items-center justify-center h-64 text-neutral-400 gap-4">
             <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
             <p>Loading activity history...</p>
           </div>
@@ -56,11 +56,11 @@ export const History = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-slate-900/80 border-b border-slate-800">
-                  <th className="py-4 px-6 font-medium text-slate-400 text-sm whitespace-nowrap">Action</th>
-                  <th className="py-4 px-6 font-medium text-slate-400 text-sm whitespace-nowrap">Result/Details</th>
-                  <th className="py-4 px-6 font-medium text-slate-400 text-sm whitespace-nowrap">Status</th>
-                  <th className="py-4 px-6 font-medium text-slate-400 text-sm text-right whitespace-nowrap">Time</th>
+                <tr className="bg-neutral-900/80 border-b border-neutral-800">
+                  <th className="py-4 px-6 font-medium text-neutral-400 text-sm whitespace-nowrap">Action</th>
+                  <th className="py-4 px-6 font-medium text-neutral-400 text-sm whitespace-nowrap">Result/Details</th>
+                  <th className="py-4 px-6 font-medium text-neutral-400 text-sm whitespace-nowrap">Status</th>
+                  <th className="py-4 px-6 font-medium text-neutral-400 text-sm text-right whitespace-nowrap">Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -70,10 +70,10 @@ export const History = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.05 }}
-                    className="border-b border-slate-800/50 hover:bg-slate-800/20 transition-colors"
+                    className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors"
                   >
                     <td className="py-4 px-6 text-white font-medium whitespace-nowrap">{item.action}</td>
-                    <td className="py-4 px-6 text-slate-300 whitespace-nowrap">{item.result}</td>
+                    <td className="py-4 px-6 text-neutral-300 whitespace-nowrap">{item.result}</td>
                     <td className="py-4 px-6 whitespace-nowrap">
                       {item.status === 'success' ? (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-xs font-medium">
@@ -89,7 +89,7 @@ export const History = () => {
                         </span>
                       )}
                     </td>
-                    <td className="py-4 px-6 text-slate-500 text-sm text-right whitespace-nowrap">
+                    <td className="py-4 px-6 text-neutral-500 text-sm text-right whitespace-nowrap">
                       {formatDate(item.time)}
                     </td>
                   </motion.tr>
@@ -97,7 +97,7 @@ export const History = () => {
                 
                 {history.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="py-12 text-center text-slate-500">
+                    <td colSpan={4} className="py-12 text-center text-neutral-500">
                       No activity found.
                     </td>
                   </tr>

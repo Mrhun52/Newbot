@@ -1,96 +1,9 @@
-import { useState } from 'react';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { useToast } from '@/store/useToast';
-import { useProgress } from '@/store/useProgress';
-import { useAuth } from '@/store/useAuth';
-import { gameApi } from '@/services/api';
-import { Shirt, Volume2, Shield, Settings, Droplet, Car, Activity, Zap } from 'lucide-react';
-import { motion } from 'motion/react';
+const fs = require('fs');
 
-export const Unlock = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [unlockingId, setUnlockingId] = useState<string | null>(null);
-  const { addToast } = useToast();
-  const { runWithProgress } = useProgress();
-  const { user, updateUser } = useAuth();
+let code = fs.readFileSync('src/pages/Unlock.tsx', 'utf8');
 
-  const unlockActions = [
-    { id: 'male_clothes', name: 'Male Clothes', desc: 'Unlock all male clothing items', icon: Shirt, api: gameApi.unlockMaleClothes, category: 'character' },
-    { id: 'female_clothes', name: 'Female Clothes', desc: 'Unlock all female clothing items', icon: Shirt, api: gameApi.unlockFemaleClothes, category: 'character' },
-    { id: 'animations', name: 'All Animations', desc: 'Unlock all character animations', icon: Zap, api: gameApi.unlockAllAnimations, category: 'character' },
-    
-    { id: 'horns', name: 'All Horns', desc: 'Unlock all vehicle horns', icon: Volume2, api: gameApi.unlockAllHorns, category: 'vehicle' },
-    { id: 'sirens', name: 'All Sirens', desc: 'Unlock all emergency sirens', icon: Volume2, api: gameApi.unlockAllSirens, category: 'vehicle' },
-    { id: 'wheels', name: 'All Wheels', desc: 'Unlock all standard wheels', icon: Settings, api: gameApi.unlockAllWheels, category: 'vehicle' },
-    { id: 'paid_wheels', name: 'Paid Wheels', desc: 'Unlock exclusive premium wheels', icon: Settings, api: gameApi.unlockPaidWheels, category: 'vehicle' },
-    { id: 'w16', name: 'W16 Engine', desc: 'Unlock the powerful W16 engine', icon: Activity, api: gameApi.unlockW16, category: 'performance' },
-    { id: 'smoke', name: 'Smoke Effect', desc: 'Unlock custom tire smoke colors', icon: Droplet, api: gameApi.unlockSmokeEffect, category: 'vehicle' },
-    
-    { id: 'damage', name: 'Disable Damage', desc: 'Make your vehicles indestructible', icon: Shield, api: gameApi.unlockDisableVehicleDamage, category: 'perks' },
-    { id: 'fuel', name: 'Unlimited Fuel', desc: 'Never run out of gas again', icon: Droplet, api: gameApi.unlockUnlimitedFuel, category: 'perks' },
-    { id: 'cars', name: 'All Cars', desc: 'Unlock every car in the game', icon: Car, api: gameApi.unlockAllCars, category: 'vehicle' },
-  ];
-
-  const handleUnlock = async (id: string, name: string, apiCall: () => Promise<any>) => {
-    setUnlockingId(id);
-    
-    // Custom steps based on the item
-    let steps = undefined;
-    let durationMs = 2000;
-    
-    if (id === 'cars') {
-      steps = [
-        { progress: 10, text: 'Fetching car database...' },
-        { progress: 30, text: 'Unlocking Tier 1 cars...' },
-        { progress: 50, text: 'Unlocking Tier 2 cars...' },
-        { progress: 75, text: 'Unlocking Premium & Boss cars...' },
-        { progress: 95, text: 'Saving 226 cars to profile...' }
-      ];
-      durationMs = 3500;
-    } else {
-      steps = [
-        { progress: 20, text: `Authorizing ${name} unlock...` },
-        { progress: 60, text: 'Applying modifications...' },
-        { progress: 90, text: 'Syncing with server...' }
-      ];
-    }
-    
-    try {
-      await runWithProgress(
-        `Unlocking ${name}`,
-        'Please wait while the modifications are applied to your account.',
-        async () => {
-          const response = await apiCall();
-          if (response.data?.status || response.data?.success || response.data?.stasus === true) {
-            addToast({ title: 'Unlocked', description: `Successfully unlocked ${name}`, type: 'success' });
-            updateUser({ unlockedFeatures: [...(user?.unlockedFeatures || []), id] });
-          } else {
-            addToast({ title: 'Failed', description: response.data?.message || `Failed to unlock ${name}`, type: 'error' });
-          }
-        },
-        { steps, durationMs }
-      );
-    } catch (error: any) {
-      addToast({ title: 'Error', description: error.response?.data?.message || `An error occurred unlocking ${name}`, type: 'error' });
-    } finally {
-      setUnlockingId(null);
-    }
-  };
-
-  const filteredActions = activeCategory === 'all' 
-     ? unlockActions 
-     : unlockActions.filter(a => a.category === activeCategory);
-
-  const categories = [
-    { id: 'all', label: 'All Unlocks' },
-    { id: 'character', label: 'Character' },
-    { id: 'vehicle', label: 'Vehicle Parts' },
-    { id: 'performance', label: 'Performance' },
-    { id: 'perks', label: 'Special Perks' },
-  ];
-
-  const unlockedIds = user?.unlockedFeatures || [];
+// Replace the return statement
+const replaceStr = `const unlockedIds = user?.unlockedFeatures || [];
   const lockedActions = filteredActions.filter(a => !unlockedIds.includes(a.id));
   const unlockedActions = filteredActions.filter(a => unlockedIds.includes(a.id));
 
@@ -106,11 +19,11 @@ export const Unlock = () => {
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap text-sm ${
+            className={\`flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap text-sm \${
               activeCategory === cat.id 
                 ? 'bg-white text-black shadow-md' 
                 : 'bg-neutral-900 text-neutral-400 hover:bg-neutral-800 hover:text-white border border-neutral-800'
-            }`}
+            }\`}
           >
             {cat.label}
           </button>
@@ -190,4 +103,21 @@ export const Unlock = () => {
       </div>
     </div>
   );
-};
+};`;
+
+code = code.replace(/const filteredActions = activeCategory === 'all'[\s\S]*?\n  return \([\s\S]*?\);\n};/, 
+`const filteredActions = activeCategory === 'all' 
+     ? unlockActions 
+     : unlockActions.filter(a => a.category === activeCategory);
+
+  const categories = [
+    { id: 'all', label: 'All Unlocks' },
+    { id: 'character', label: 'Character' },
+    { id: 'vehicle', label: 'Vehicle Parts' },
+    { id: 'performance', label: 'Performance' },
+    { id: 'perks', label: 'Special Perks' },
+  ];
+
+  ${replaceStr}`);
+
+fs.writeFileSync('src/pages/Unlock.tsx', code);

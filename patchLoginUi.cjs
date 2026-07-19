@@ -1,81 +1,14 @@
-import { useState, FormEvent } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Card } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
-import { useAuth } from '@/store/useAuth';
-import { useToast } from '@/store/useToast';
-import { authApi } from '@/services/api';
-import { Gamepad2, Lock, Mail, ArrowRight } from 'lucide-react';
-import { motion } from 'motion/react';
-import { ParticleBackground } from '@/components/ui/ParticleBackground';
+const fs = require('fs');
 
-export const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { login } = useAuth();
-  const { addToast } = useToast();
+let code = fs.readFileSync('src/pages/Login.tsx', 'utf8');
 
-  const from = location.state?.from?.pathname || '/dashboard';
-
-  const handleLogin = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email || !password) {
-      addToast({ title: 'Error', description: 'Please fill all fields', type: 'error' });
-      return;
-    }
-    
-    setIsLoading(true);
-    try {
-      const response = await authApi.login({ email, password });
-      
-      if (response.data.success || response.data.stasus === true || response.data.status === true) {
-        const record = response.data.record || {};
-        const user = {
-          id: record.id || 'GD-8849-XT',
-          email: email,
-          name: record.Name || 'Player',
-          role: 'user',
-          money: record.money || 0,
-          coins: record.coin || 0
-        };
-        login({ email, password }, user);
-        addToast({ title: 'Success', description: 'Welcome back!', type: 'success' });
-        navigate(from, { replace: true });
-      } else {
-        addToast({ 
-          title: 'Login Failed', 
-          description: response.data.message || 'Invalid credentials or failed to fetch record', 
-          type: 'error' 
-        });
-      }
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.message || error.message || 'Invalid credentials';
-      addToast({ 
-        title: 'Login Failed', 
-        description: errorMessage, 
-        type: 'error' 
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-    return (
-    <div className="min-h-screen bg-[#030303] flex flex-col items-center p-4 relative overflow-hidden">
-      {/* Premium Background Animation */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-[10%] -left-[10%] w-[50vw] h-[50vw] max-w-[600px] max-h-[600px] bg-purple-600/10 rounded-full mix-blend-screen filter blur-[80px] sm:blur-[120px] animate-blob"></div>
-        <div className="absolute top-[20%] -right-[10%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-blue-600/10 rounded-full mix-blend-screen filter blur-[80px] sm:blur-[120px] animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-[10%] left-[20%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] bg-pink-600/10 rounded-full mix-blend-screen filter blur-[80px] sm:blur-[120px] animate-blob animation-delay-4000"></div>
-      </div>
+// Replace the return statement to add Marquee and Footer
+const replaceStr = `  return (
+    <div className="min-h-screen bg-[#000000] flex flex-col items-center p-4 relative overflow-hidden">
       
       {/* Marquee Banner */}
       <div className="w-full bg-[#111] border-b border-neutral-800 text-neutral-400 py-2 overflow-hidden absolute top-0 left-0 right-0 z-50">
-        <div className="flex w-max whitespace-nowrap animate-marquee">
+        <div className="flex whitespace-nowrap animate-[marquee_20s_linear_infinite]">
           <span className="mx-4 text-xs font-medium tracking-wider uppercase">🔥 Max Account Features</span>
           <span className="mx-4 text-xs font-medium tracking-wider uppercase">•</span>
           <span className="mx-4 text-xs font-medium tracking-wider uppercase">💰 Unlimited Money & Coins</span>
@@ -104,13 +37,8 @@ export const Login = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative w-full rounded-[2rem] p-[1px] overflow-hidden z-10 group"
+          className="w-full p-8 md:p-10 bg-[#0F0F0F] border border-neutral-800/50 rounded-[2rem] relative z-10"
         >
-          {/* Running Rainbow Border */}
-          <div className="absolute inset-[-100%] z-0 bg-[conic-gradient(from_0deg,#ff4545,#00ff99,#006aff,#ff0095,#ff4545)] animate-spin-slow opacity-60"></div>
-          
-          {/* Card Content Container */}
-          <div className="relative z-10 w-full p-8 md:p-10 bg-[#0a0a0a]/95 backdrop-blur-xl rounded-[calc(2rem-1px)]">
           <div className="flex flex-col items-center text-center mb-8">
             <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm relative overflow-hidden">
               <span className="text-black font-bold text-3xl font-display relative z-10">M</span>
@@ -155,7 +83,6 @@ export const Login = () => {
               </Button>
             </div>
           </form>
-          </div>
         </motion.div>
       </div>
 
@@ -179,4 +106,8 @@ export const Login = () => {
 
     </div>
   );
-};
+};`;
+
+code = code.replace(/return \([\s\S]*?\);\n};/, replaceStr);
+
+fs.writeFileSync('src/pages/Login.tsx', code);

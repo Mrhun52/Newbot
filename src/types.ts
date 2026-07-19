@@ -5,6 +5,8 @@ export interface User {
   role: string;
   money?: number;
   coins?: number;
+  carsCount?: number;
+  unlockedFeatures?: string[];
 }
 
 export interface Car {

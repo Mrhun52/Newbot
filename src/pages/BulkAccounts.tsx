@@ -147,7 +147,7 @@ export const BulkAccounts = () => {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
         <header className="mb-6">
           <h1 className="text-3xl font-bold text-white mb-2">Multi-Account Manager</h1>
-          <p className="text-slate-400">Add multiple accounts and perform actions simultaneously.</p>
+          <p className="text-neutral-400">Add multiple accounts and perform actions simultaneously.</p>
         </header>
       </motion.div>
 
@@ -176,7 +176,7 @@ export const BulkAccounts = () => {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-white/10 text-slate-400 text-sm">
+                    <tr className="border-b border-white/10 text-neutral-400 text-sm">
                       <th className="p-3 w-10"></th>
                       <th className="p-3">Email</th>
                       <th className="p-3">Name</th>
@@ -188,7 +188,7 @@ export const BulkAccounts = () => {
                   <tbody>
                     {accounts.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="p-8 text-center text-slate-500">
+                        <td colSpan={6} className="p-8 text-center text-neutral-500">
                           No accounts added yet. Use the form to add one.
                         </td>
                       </tr>
@@ -198,19 +198,19 @@ export const BulkAccounts = () => {
                       return (
                         <tr key={account.id} className={`border-b border-white/5 transition-colors ${isSelected ? 'bg-blue-500/10' : 'hover:bg-white/5'}`}>
                           <td className="p-3">
-                            <button onClick={() => toggleSelection(account.id)} className="text-slate-400 hover:text-blue-400 transition-colors">
+                            <button onClick={() => toggleSelection(account.id)} className="text-neutral-400 hover:text-blue-400 transition-colors">
                               {isSelected ? <CheckSquare className="w-5 h-5 text-blue-400" /> : <Square className="w-5 h-5" />}
                             </button>
                           </td>
-                          <td className="p-3 text-sm text-slate-200">{account.email}</td>
-                          <td className="p-3 text-sm text-slate-300">{account.name || 'Unknown'}</td>
+                          <td className="p-3 text-sm text-neutral-200">{account.email}</td>
+                          <td className="p-3 text-sm text-neutral-300">{account.name || 'Unknown'}</td>
                           <td className="p-3 text-sm text-emerald-400">${account.money?.toLocaleString() || '0'}</td>
                           <td className="p-3 text-sm text-amber-400">{account.coins?.toLocaleString() || '0'}</td>
                           <td className="p-3 text-right flex justify-end gap-2">
-                            <button onClick={() => handleRefresh(account)} className="p-1.5 text-slate-400 hover:text-blue-400 bg-white/5 rounded-md transition-colors" title="Refresh">
+                            <button onClick={() => handleRefresh(account)} className="p-1.5 text-neutral-400 hover:text-blue-400 bg-white/5 rounded-md transition-colors" title="Refresh">
                               <RefreshCw className="w-4 h-4" />
                             </button>
-                            <button onClick={() => removeAccount(account.id)} className="p-1.5 text-slate-400 hover:text-red-400 bg-white/5 rounded-md transition-colors" title="Remove">
+                            <button onClick={() => removeAccount(account.id)} className="p-1.5 text-neutral-400 hover:text-red-400 bg-white/5 rounded-md transition-colors" title="Remove">
                               <Trash2 className="w-4 h-4" />
                             </button>
                           </td>
@@ -227,7 +227,7 @@ export const BulkAccounts = () => {
                 <Play className="w-5 h-5 text-purple-400" />
                 <h2 className="text-xl font-bold text-white">Bulk Operation Execution</h2>
               </div>
-              <p className="text-sm text-slate-400 mb-6">
+              <p className="text-sm text-neutral-400 mb-6">
                 Applies the selected action to all {selectedAccountIds.length} checked accounts sequentially.
               </p>
               
@@ -241,7 +241,7 @@ export const BulkAccounts = () => {
                   Max Account (Unlock All)
                 </Button>
                 <Button 
-                  className="w-full bg-slate-800 hover:bg-slate-700" 
+                  className="w-full bg-neutral-800 hover:bg-neutral-700" 
                   onClick={() => handleBulkAction('complete_levels')}
                   isLoading={isProcessing}
                   disabled={selectedAccountIds.length === 0}
@@ -249,7 +249,7 @@ export const BulkAccounts = () => {
                   Complete All Levels
                 </Button>
                 <Button 
-                  className="w-full bg-slate-800 hover:bg-slate-700" 
+                  className="w-full bg-neutral-800 hover:bg-neutral-700" 
                   onClick={() => handleBulkAction('unlock_cars')}
                   isLoading={isProcessing}
                   disabled={selectedAccountIds.length === 0}
@@ -269,7 +269,7 @@ export const BulkAccounts = () => {
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-1.5">Email</label>
+                  <label className="block text-sm font-medium text-neutral-400 mb-1.5">Email</label>
                   <Input 
                     placeholder="player@example.com"
                     value={newEmail}
@@ -277,7 +277,7 @@ export const BulkAccounts = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-1.5">Password</label>
+                  <label className="block text-sm font-medium text-neutral-400 mb-1.5">Password</label>
                   <Input 
                     type="password"
                     placeholder="Enter password"

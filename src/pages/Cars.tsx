@@ -105,24 +105,24 @@ export const Cars = () => {
     <div className="space-y-6">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Vehicle Management</h1>
-        <p className="text-slate-400">Buy specific vehicles and apply special modifications.</p>
+        <p className="text-neutral-400">Buy specific vehicles and apply special modifications.</p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="flex flex-col h-full bg-slate-900 border-slate-800">
+        <Card className="flex flex-col h-full bg-neutral-900 border-neutral-800">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center">
               <Unlock className="w-6 h-6 text-blue-400" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">Buy Specific Car</h2>
-              <p className="text-slate-400 text-sm">Unlock a single car by its ID (e.g. 1-226)</p>
+              <p className="text-neutral-400 text-sm">Unlock a single car by its ID (e.g. 1-226)</p>
             </div>
           </div>
           
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Car ID</label>
+              <label className="block text-sm font-medium text-neutral-400 mb-2">Car ID</label>
               <div className="flex gap-3">
                 <Input 
                   type="number" 
@@ -143,20 +143,20 @@ export const Cars = () => {
           </div>
         </Card>
 
-        <Card className="flex flex-col h-full bg-slate-900 border-slate-800">
+        <Card className="flex flex-col h-full bg-neutral-900 border-neutral-800">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center">
               <Shield className="w-6 h-6 text-red-400" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">Remove Bumpers</h2>
-              <p className="text-slate-400 text-sm">Remove front or rear bumpers</p>
+              <p className="text-neutral-400 text-sm">Remove front or rear bumpers</p>
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Car ID (or "all")</label>
+              <label className="block text-sm font-medium text-neutral-400 mb-2">Car ID (or "all")</label>
               <Input 
                 placeholder='Enter Car ID or "all"' 
                 value={carIdBumper}
@@ -164,13 +164,13 @@ export const Cars = () => {
               />
             </div>
             <div className="flex gap-4 mb-4">
-              <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+              <label className="flex items-center gap-2 text-neutral-300 cursor-pointer">
                 <div className={`w-5 h-5 rounded flex items-center justify-center border ${frontBumper ? 'bg-blue-600 border-blue-600' : 'border-slate-600'}`} onClick={() => setFrontBumper(!frontBumper)}>
                   {frontBumper && <Check className="w-3.5 h-3.5 text-white" />}
                 </div>
                 Front Bumper
               </label>
-              <label className="flex items-center gap-2 text-slate-300 cursor-pointer">
+              <label className="flex items-center gap-2 text-neutral-300 cursor-pointer">
                 <div className={`w-5 h-5 rounded flex items-center justify-center border ${rearBumper ? 'bg-blue-600 border-blue-600' : 'border-slate-600'}`} onClick={() => setRearBumper(!rearBumper)}>
                   {rearBumper && <Check className="w-3.5 h-3.5 text-white" />}
                 </div>
@@ -188,20 +188,20 @@ export const Cars = () => {
           </div>
         </Card>
 
-        <Card className="flex flex-col h-full bg-slate-900 border-slate-800 lg:col-span-2">
+        <Card className="flex flex-col h-full bg-neutral-900 border-neutral-800 lg:col-span-2">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center">
               <Droplet className="w-6 h-6 text-purple-400" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">Apply Chrome Colors</h2>
-              <p className="text-slate-400 text-sm">Customize body, windows, and wheels with HEX colors</p>
+              <p className="text-neutral-400 text-sm">Customize body, windows, and wheels with HEX colors</p>
             </div>
           </div>
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Car ID (or "all")</label>
+              <label className="block text-sm font-medium text-neutral-400 mb-2">Car ID (or "all")</label>
               <Input 
                 className="max-w-xs"
                 placeholder='Enter Car ID or "all"' 
@@ -212,38 +212,38 @@ export const Cars = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Body Color (HEX)</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">Body Color (HEX)</label>
                 <div className="flex gap-3">
                   <Input 
                     placeholder="#FF0000" 
                     value={chromeBody}
                     onChange={(e) => setChromeBody(e.target.value)}
                   />
-                  <div className="w-10 h-10 rounded border border-slate-700 shrink-0" style={{ backgroundColor: chromeBody || 'transparent' }} />
+                  <div className="w-10 h-10 rounded border border-neutral-700 shrink-0" style={{ backgroundColor: chromeBody || 'transparent' }} />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Window Color (HEX)</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">Window Color (HEX)</label>
                 <div className="flex gap-3">
                   <Input 
                     placeholder="#00FF00" 
                     value={chromeWindow}
                     onChange={(e) => setChromeWindow(e.target.value)}
                   />
-                  <div className="w-10 h-10 rounded border border-slate-700 shrink-0" style={{ backgroundColor: chromeWindow || 'transparent' }} />
+                  <div className="w-10 h-10 rounded border border-neutral-700 shrink-0" style={{ backgroundColor: chromeWindow || 'transparent' }} />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-slate-400 mb-2">Wheels Color (HEX)</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">Wheels Color (HEX)</label>
                 <div className="flex gap-3">
                   <Input 
                     placeholder="#0000FF" 
                     value={chromeWheels}
                     onChange={(e) => setChromeWheels(e.target.value)}
                   />
-                  <div className="w-10 h-10 rounded border border-slate-700 shrink-0" style={{ backgroundColor: chromeWheels || 'transparent' }} />
+                  <div className="w-10 h-10 rounded border border-neutral-700 shrink-0" style={{ backgroundColor: chromeWheels || 'transparent' }} />
                 </div>
               </div>
             </div>
