@@ -90,7 +90,10 @@ export const Login = () => {
         });
       }
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || error.message || 'Invalid credentials';
+      let errorMessage = error.response?.data?.message || error.message || 'Invalid credentials';
+      if (errorMessage === 'Network Error' || String(error).includes('Network Error')) {
+        errorMessage = 'Network Error: Backend Server (Railway) is offline or crashed. Please check your Railway deployment logs.';
+      }
       addToast({ 
         title: 'Login Failed', 
         description: errorMessage, 
