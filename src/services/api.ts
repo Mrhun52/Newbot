@@ -92,8 +92,9 @@ export const userApi = {
   getProfile: (creds?: { email?: string; password?: string }) => safePost('/api/get-player-records', { ...creds }),
   updateName: (value: string, creds?: { email?: string; password?: string }) => safePost('/api/set-name', { value, ...creds }),
   updateId: (value: string, creds?: { email?: string; password?: string }) => safePost('/api/set-id', { value, ...creds }),
-  copyAccount: (data: { fromEmail: string; fromPassword: string; toEmail: string; toPassword: string }) => 
-    safePost('/api/copy-account', data),
+  copyAccount: (data: { fromEmail: string; fromPassword: string; toEmail: string; toPassword: string }) => safePost('/api/copy-account', data),
+  copyCars: (data: { fromEmail: string; fromPassword: string; toEmail: string; toPassword: string }) => safePost('/api/copy-cars', data),
+  copySingleCar: (data: { fromEmail: string; fromPassword: string; toEmail: string; toPassword: string; carId: number }) => safePost('/api/copy-single-car', data),
 };
 
 export const gameApi = {

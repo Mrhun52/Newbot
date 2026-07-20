@@ -160,12 +160,12 @@ export const Dashboard = () => {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
-      <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0F0F0F]/60 backdrop-blur-md mb-8 group shadow-2xl">
+      <div>
+      <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0F0F0F]/60 backdrop-blur-sm mb-8 group shadow-2xl">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
         {/* Decorative background */}
-        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
-        <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-purple-500/10 blur-[100px] rounded-full pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
+        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-500/10 blur-3xl rounded-full pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+        <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-purple-500/10 blur-3xl rounded-full pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
         
         <div className="relative p-6 sm:p-8 md:p-10 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 z-10">
           <div className="relative">
@@ -211,10 +211,10 @@ export const Dashboard = () => {
           </div>
         </div>
       </div>
-      </motion.div>
+      </div>
 
       
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.3 }}>
+      <div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         {stats.map((stat, i) => (
           <Card key={i} className="p-5">
@@ -234,8 +234,8 @@ export const Dashboard = () => {
           </Card>
         ))}
       </div>
-      </motion.div>
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.4 }}>
+      </div>
+      <div>
       <div className="pt-4">
         <h3 className="text-xl font-bold text-white mb-4">Quick Actions</h3>
         <div className="grid grid-cols-2 gap-3 md:gap-4">
@@ -256,7 +256,7 @@ export const Dashboard = () => {
           ))}
         </div>
       </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

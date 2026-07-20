@@ -24,7 +24,7 @@ export const ParticleBackground = () => {
     const initParticles = () => {
       particles = [];
       // Optimize particle count for performance based on screen area
-      const numParticles = Math.min(Math.floor((window.innerWidth * window.innerHeight) / 15000), 80);
+      const numParticles = Math.min(Math.floor((window.innerWidth * window.innerHeight) / 30000), 20);
       
       for (let i = 0; i < numParticles; i++) {
         particles.push({

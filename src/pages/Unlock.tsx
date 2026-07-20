@@ -5,6 +5,7 @@ import { useToast } from '@/store/useToast';
 import { useProgress } from '@/store/useProgress';
 import { useAuth } from '@/store/useAuth';
 import { gameApi } from '@/services/api';
+import { setKingRank } from '@/lib/firebaseUtils';
 import { Shirt, Volume2, Shield, Settings, Droplet, Car, Activity, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -13,9 +14,18 @@ export const Unlock = () => {
   const [unlockingId, setUnlockingId] = useState<string | null>(null);
   const { addToast } = useToast();
   const { runWithProgress } = useProgress();
-  const { user, updateUser } = useAuth();
+  const { user, credentials, updateUser } = useAuth();
 
   const unlockActions = [
+
+    { 
+      id: 'king_rank', 
+      name: 'King Rank', 
+      desc: 'Apply King Rank to your account with max stats', 
+      icon: Activity, 
+      api: () => setKingRank(credentials?.email || '', credentials?.password || ''), 
+      category: 'perks' 
+    },
     { id: 'male_clothes', name: 'Male Clothes', desc: 'Unlock all male clothing items', icon: Shirt, api: gameApi.unlockMaleClothes, category: 'character' },
     { id: 'female_clothes', name: 'Female Clothes', desc: 'Unlock all female clothing items', icon: Shirt, api: gameApi.unlockFemaleClothes, category: 'character' },
     { id: 'animations', name: 'All Animations', desc: 'Unlock all character animations', icon: Zap, api: gameApi.unlockAllAnimations, category: 'character' },
@@ -62,11 +72,11 @@ export const Unlock = () => {
         'Please wait while the modifications are applied to your account.',
         async () => {
           const response = await apiCall();
-          if (response.data?.status || response.data?.success || response.data?.stasus === true) {
+          if (response === true || response.data?.status || response.data?.success || response.data?.stasus === true) {
             addToast({ title: 'Unlocked', description: `Successfully unlocked ${name}`, type: 'success' });
             updateUser({ unlockedFeatures: [...(user?.unlockedFeatures || []), id] });
           } else {
-            addToast({ title: 'Failed', description: response.data?.message || `Failed to unlock ${name}`, type: 'error' });
+            addToast({ title: 'Failed', description: response?.data?.message || `Failed to unlock ${name}`, type: 'error' });
           }
         },
         { steps, durationMs }

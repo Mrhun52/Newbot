@@ -64,18 +64,9 @@ export const DashboardLayout = ({ children }: { children: ReactNode }) => {
         </header>
 
         <div className="flex-1">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen"
-            >
+          <div className="p-4 md:p-8 max-w-7xl mx-auto min-h-screen">
               {children}
-            </motion.div>
-          </AnimatePresence>
+            </div>
         </div>
       </main>
 
