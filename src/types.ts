@@ -31,6 +31,9 @@ export interface AuthState {
   isAuthenticated: boolean;
   login: (credentials: any, user: User) => void;
   logout: () => void;
+  lastActivity?: number;
+  updateActivity?: () => void;
+  checkActivity?: () => void;
   updateUser: (data: Partial<User>) => void;
 }
 

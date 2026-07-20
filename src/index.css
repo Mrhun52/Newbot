@@ -17,6 +17,7 @@ body {
 }
 
 .animate-marquee {
+  will-change: transform;
   animation: marquee 20s linear infinite;
 }
 
@@ -33,10 +34,12 @@ body {
 }
 
 .animate-spin-slow {
+  will-change: transform;
   animation: spin-slow 4s linear infinite;
 }
 
 .animate-blob {
+  will-change: transform;
   animation: blob 7s infinite;
 }
 

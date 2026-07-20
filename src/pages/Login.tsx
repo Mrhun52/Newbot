@@ -108,8 +108,8 @@ export const Login = () => {
     <div className="min-h-screen bg-[#000000] flex flex-col items-center p-4 relative overflow-hidden">
       {/* Premium Deep Animated Gradient Background */}
       <div className="absolute inset-0 z-0 opacity-40">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-black animate-gradient-slow bg-[length:400%_400%]"></div>
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900 via-purple-900 to-black  bg-[length:400%_400%]"></div>
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 "></div>
       </div>
       
       {/* Marquee Banner */}
@@ -146,12 +146,12 @@ export const Login = () => {
           className="relative w-full rounded-[2rem] p-[1px] overflow-hidden z-10 group"
         >
           {/* Premium Smooth Running Rainbow Border */}
-          <div className="absolute inset-[-100%] z-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#00f0ff_360deg)] animate-[spin_3s_linear_infinite]"></div>
-          <div className="absolute inset-[-100%] z-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#ff00a0_360deg)] animate-[spin_3s_linear_infinite] [animation-delay:-1.5s]"></div>
+          <div className="absolute inset-[-100%] z-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#00f0ff_360deg)] animate-[spin_3s_linear_infinite]" style={{ willChange: "transform" }}></div>
+          <div className="absolute inset-[-100%] z-0 bg-[conic-gradient(from_0deg,transparent_0_340deg,#ff00a0_360deg)] animate-[spin_3s_linear_infinite] [animation-delay:-1.5s]" style={{ willChange: "transform" }}></div>
           <div className="absolute inset-[1px] z-0 bg-[#0a0a0a] rounded-[calc(2rem-1px)]"></div>
           
           {/* Card Content Container */}
-          <div className="relative z-10 w-full p-8 md:p-10 bg-[#0a0a0a]/95 backdrop-blur-xl rounded-[calc(2rem-1px)]">
+          <div className="relative z-10 w-full p-8 md:p-10 bg-[#0a0a0a]/95 backdrop-blur-md rounded-[calc(2rem-1px)]">
           <div className="flex flex-col items-center text-center mb-8">
             <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm relative overflow-hidden">
               <span className="text-black font-bold text-3xl font-display relative z-10">M</span>

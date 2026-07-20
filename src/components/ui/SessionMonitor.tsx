@@ -5,7 +5,7 @@ import { AlertTriangle, LogOut } from 'lucide-react';
 import { Button } from './Button';
 
 export const SessionMonitor = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, checkActivity, updateActivity } = useAuth();
   const [showWarning, setShowWarning] = useState(false);
   const [timeLeft, setTimeLeft] = useState(60);
 
@@ -28,17 +28,28 @@ export const SessionMonitor = () => {
 
   useEffect(() => {
     if (!user) return;
-
+    
+    // Check if session has already expired since we were last here
+    if (checkActivity) {
+      checkActivity();
+    }
+    
+    const handleActivity = () => {
+      if (updateActivity) updateActivity();
+      resetTimer();
+    };
+    
     const events = ['mousedown', 'keydown', 'scroll', 'touchstart'];
-    events.forEach(event => document.addEventListener(event, resetTimer));
+    events.forEach(event => document.addEventListener(event, handleActivity));
+    
     resetTimer();
-
+    
     return () => {
-      events.forEach(event => document.removeEventListener(event, resetTimer));
+      events.forEach(event => document.removeEventListener(event, handleActivity));
       clearTimeout(activityTimeout);
       clearInterval(countdownInterval);
     };
-  }, [user, resetTimer]);
+  }, [user, resetTimer, checkActivity, updateActivity]);
 
   useEffect(() => {
     if (showWarning && timeLeft > 0) {
@@ -59,6 +70,7 @@ export const SessionMonitor = () => {
 
   const stayLoggedIn = () => {
     setShowWarning(false);
+    if (updateActivity) updateActivity();
     resetTimer();
   };
 

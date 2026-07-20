@@ -33,7 +33,7 @@ export const Account = () => {
   const [copiedId, setCopiedId] = useState(false);
 
   // Copy Account state
-  const [copyData, setCopyData] = useState({ fromEmail: '', fromPassword: '', toEmail: '', toPassword: '', carId: '' });
+  const [copyData, setCopyData] = useState({ toEmail: '', toPassword: '', carId: '' });
   const [isCopying, setIsCopying] = useState<string | false>(false);
 
   const handleUpdateName = async () => {
@@ -117,8 +117,8 @@ export const Account = () => {
 
 
   const handleCopyAccount = async (type: 'all' | 'cars' | 'single-car') => {
-    const { fromEmail, fromPassword, toEmail, toPassword, carId } = copyData;
-    if (!fromEmail || !fromPassword || !toEmail || !toPassword) {
+    const { toEmail, toPassword, carId } = copyData;
+    if (!toEmail || !toPassword) {
       addToast({ title: 'Missing fields', description: 'Please fill out all email/password fields.', type: 'error' });
       return;
     }
@@ -136,10 +136,11 @@ export const Account = () => {
         'Transferring data from source to destination...',
         async () => {
           let response;
+          const fromEmail = credentials?.email || '';
+          const fromPassword = credentials?.password || '';
           if (type === 'all') {
              response = await userApi.copyAccount({ fromEmail, fromPassword, toEmail, toPassword });
           } else if (type === 'cars') {
-             // Use the copy-cars endpoint (we will add this to api.ts)
              response = await userApi.copyCars({ fromEmail, fromPassword, toEmail, toPassword });
           } else if (type === 'single-car') {
              response = await userApi.copySingleCar({ fromEmail, fromPassword, toEmail, toPassword, carId: Number(carId) });
@@ -308,20 +309,7 @@ export const Account = () => {
             </p>
             
             <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 space-y-4">
-                <h3 className="text-sm font-medium text-neutral-300">Source Account (From)</h3>
-                <Input 
-                  placeholder="From Email" 
-                  value={copyData.fromEmail}
-                  onChange={(e) => setCopyData(prev => ({ ...prev, fromEmail: e.target.value }))}
-                />
-                <Input 
-                  type="password"
-                  placeholder="From Password" 
-                  value={copyData.fromPassword}
-                  onChange={(e) => setCopyData(prev => ({ ...prev, fromPassword: e.target.value }))}
-                />
-              </div>
+              
               
               <div className="p-4 rounded-xl bg-neutral-900/50 border border-neutral-800 space-y-4">
                 <h3 className="text-sm font-medium text-neutral-300">Destination Account (To)</h3>

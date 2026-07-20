@@ -164,8 +164,8 @@ export const Dashboard = () => {
       <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-[#0F0F0F]/60 backdrop-blur-sm mb-8 group shadow-2xl">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20" />
         {/* Decorative background */}
-        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-blue-500/10 blur-3xl rounded-full pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
-        <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-purple-500/10 blur-3xl rounded-full pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
+        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/3" style={{ background: "radial-gradient(circle, rgba(59,130,246,0.15) 0%, rgba(0,0,0,0) 70%)" }}></div>
+        <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] rounded-full pointer-events-none translate-y-1/3 -translate-x-1/3" style={{ background: "radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(0,0,0,0) 70%)" }}></div>
         
         <div className="relative p-6 sm:p-8 md:p-10 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 z-10">
           <div className="relative">
@@ -175,7 +175,7 @@ export const Dashboard = () => {
               </span>
             </div>
             {/* Status indicator ring */}
-            <div className="absolute -inset-1 border border-emerald-500/30 rounded-full animate-[spin_4s_linear_infinite]"></div>
+            <div className="absolute -inset-1 border border-emerald-500/30 rounded-full animate-[spin_4s_linear_infinite]" style={{ willChange: "transform" }}></div>
             <div className="absolute bottom-0 right-0 w-6 h-6 bg-emerald-500 border-4 border-[#0a0a0a] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
           </div>
           

@@ -22,7 +22,7 @@ export const DashboardLayout = ({ children }: { children: ReactNode }) => {
       <Sidebar />
       
       {/* Mobile Header */}
-      <div className="lg:hidden sticky top-0 z-40 bg-neutral-900/60 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-4 py-4">
+      <div className="lg:hidden sticky top-0 z-40 bg-neutral-900/60 backdrop-blur-sm border-b border-white/5 flex items-center justify-between px-4 py-4">
         <div className="w-8" />
         <h1 className="text-lg md:text-xl font-bold text-white tracking-[0.2em] md:tracking-[0.3em] font-display absolute left-1/2 -translate-x-1/2">
           M R &nbsp;T O O L
@@ -37,7 +37,7 @@ export const DashboardLayout = ({ children }: { children: ReactNode }) => {
 
       <main className="lg:pl-[18rem] min-h-screen relative z-10 pb-20 lg:pb-0 flex flex-col">
         {/* Desktop Header with Search */}
-        <header className="hidden lg:flex items-center justify-between px-8 py-4 mx-4 mt-4 bg-neutral-900/40 backdrop-blur-md border border-white/5 rounded-3xl sticky top-0 z-30 shadow-2xl">
+        <header className="hidden lg:flex items-center justify-between px-8 py-4 mx-4 mt-4 bg-neutral-900/40 backdrop-blur-sm border border-white/5 rounded-3xl sticky top-0 z-30 shadow-2xl">
            <div className="relative w-96 group">
              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500 group-focus-within:text-blue-400 transition-colors" />
              <input 
